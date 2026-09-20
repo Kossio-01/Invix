@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="100%" height="auto">
+  <defs>
+    <!-- Gradientes de color -->
+    <linearGradient id="invixGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1"/> <!-- Indigo -->
+      <stop offset="100%" stop-color="#06B6D4"/> <!-- Cyan -->
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/> <!-- Emerald -->
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ISOTIPO (Icono) -->
+  <g transform="translate(10, 10)">
+    <!-- Caja / Módulo Base -->
+    <path d="M 15 12 L 35 2 L 55 12 L 55 35 L 35 45 L 15 35 Z" fill="none" stroke="url(#invixGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- Tapa Superior -->
+    <path d="M 15 12 L 35 22 L 55 12" fill="none" stroke="url(#invixGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- Linea Central / Flujo -->
+    <path d="M 35 22 L 35 45" fill="none" stroke="url(#invixGrad)" stroke-width="3.5"/>
+    <!-- Flecha de Entrada/Salida (Stock) -->
+    <circle cx="45" cy="38" r="6" fill="url(#accentGrad)"/>
+  </g>
+
+  <!-- LOGOTIPO (Texto) -->
+  <text x="80" y="48" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-weight="800" font-size="34" fill="#FFFFFF" letter-spacing="1">
+    INV<tspan fill="url(#invixGrad)">IX</tspan>
+  </text>
+  
+  <!-- Slogan / Subtexto opcional -->
+  <text x="82" y="64" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-weight="500" font-size="10" fill="#94A3B8" letter-spacing="2.5">
+    INVENTORY SYSTEM
+  </text>
+</svg>
