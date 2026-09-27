@@ -41,9 +41,35 @@ if (page === 'login' || page === 'register') {
   const form = document.querySelector('form[data-auth-form]');
   const button = form.querySelector('button[type="submit"]');
   button.dataset.label = button.textContent;
+  const fields = [...form.querySelectorAll('input')];
+  const errorMessage = field => {
+    if (field.validity.valueMissing) return 'Este campo es obligatorio.';
+    if (field.validity.typeMismatch) return 'Ingresa un correo electrónico válido.';
+    if (field.validity.tooShort) return `Usa al menos ${field.minLength} caracteres.`;
+    if (field.name === 'confirmPassword' && field.value !== form.elements.password.value) return 'Las contraseñas no coinciden.';
+    return '';
+  };
+  const validateField = field => {
+    const error = field.closest('form').querySelector(`#${field.id}-error`);
+    const text = errorMessage(field);
+    field.classList.add('touched');
+    if (error) {
+      error.textContent = text;
+      error.hidden = !text;
+    }
+    field.setAttribute('aria-invalid', String(Boolean(text)));
+    return !text;
+  };
+  fields.forEach(field => {
+    field.addEventListener('blur', () => validateField(field));
+    field.addEventListener('input', () => {
+      if (field.classList.contains('touched')) validateField(field);
+    });
+  });
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (!form.reportValidity()) return;
+    const valid = fields.map(validateField).every(Boolean);
+    if (!valid) return;
     const values = Object.fromEntries(new FormData(form));
     if (page === 'register' && values.password !== values.confirmPassword) {
       message('Las contraseñas no coinciden.');

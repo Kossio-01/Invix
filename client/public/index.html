@@ -1,5 +1,122 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Invix | Inventario y pedidos</title><link rel="stylesheet" href="../css/styles.css"><link rel="stylesheet" href="../css/laura.css"><script type="module" src="../js/main.js"></script></head>
-<body data-page="home"><header class="site-header"><a class="brand" href="./index.html">Invix</a><nav aria-label="Navegación principal"><a href="./index.html">Inicio</a><a href="./login.html">Ingresar</a><a class="button small" href="./register.html">Crear cuenta</a></nav></header>
-<main><section class="hero" data-public><div><p class="eyebrow">Inventario y pedidos en un solo lugar</p><h1>Organiza tu inventario con Invix</h1><p>Consulta tus productos, gestiona tus movimientos y mantén tus pedidos bajo control desde una misma plataforma.</p><div class="actions"><a class="button" href="./register.html">Comenzar</a><a class="button secondary" href="./login.html">Ya tengo cuenta</a></div></div><div class="hero-card"><span class="card-icon" aria-hidden="true">▦</span><h2>Tu operación, más clara</h2><p>Accede a tu información cuando la necesites y sigue el estado de tu inventario.</p></div></section>
-<section class="dashboard" data-dashboard hidden><p class="eyebrow">Área privada</p><h1>Bienvenido, <span data-username></span></h1><p>Tu sesión está activa. Aquí se integrarán los módulos de productos, inventario y pedidos cuando el equipo defina sus endpoints.</p><button type="button" class="button secondary" data-logout>Cerrar sesión</button></section></main><footer>Invix · Sistema de inventario y pedidos</footer></body></html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Invix | Inventario y pedidos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script type="module" src="../js/main.js"></script>
+  </head>
+  <body data-page="home">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./index.html" aria-label="Invix, inicio">
+          <img src="../../docs/Invix-Logo.svg" alt="Invix">
+        </a>
+        <nav aria-label="Navegación principal">
+          <a href="./index.html">Inicio</a>
+          <a href="login.html">Ingresar</a>
+          <a class="button small" href="register.html">Crear cuenta</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" data-public>
+        <div>
+          <p class="eyebrow">Inventario y pedidos en un solo lugar</p>
+          <h1>Organiza tu inventario con Invix</h1>
+          <p>Consulta tus productos, gestiona tus movimientos y mantén tus pedidos bajo control desde una misma plataforma.</p>
+          <div class="actions">
+            <a class="button" href="register.html">Comenzar</a>
+            <a class="button secondary" href="login.html">Ya tengo cuenta</a>
+          </div>
+        </div>
+        <div class="hero-card-position">
+          <div class="hero-card">
+            <img src="./assets/invix-dashboard-preview.jpg" alt="Invix Dashboard Preview" class="dashboard-img">
+            <div class="floating-stock">
+              <strong>Calidad esperada</strong>
+              <b>85</b>
+              <span></span>
+            </div>
+            <div class="floating-barcode">
+              <small>Nombre</small>
+              <strong>Cajas de carga</strong>
+              <i>|||| |||| |||||</i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" data-public>
+        <div class="section-heading">
+          <p class="eyebrow">Todo lo que necesitas</p>
+          <h2>Una operación que fluye mejor</h2>
+          <p>Centraliza la información y toma decisiones con una vista clara de cada movimiento.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">▣</span>
+            <h3>Control de stock</h3>
+            <p>Conoce existencias, ubicaciones y movimientos en tiempo real.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">⌁</span>
+            <h3>Alertas inteligentes</h3>
+            <p>Anticípate al desabastecimiento con avisos oportunos.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">↗</span>
+            <h3>Gestión de pedidos</h3>
+            <p>Organiza órdenes y consulta su estado desde un solo lugar.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="metrics" data-public aria-label="Métricas de Invix">
+        <div>
+          <strong>+10,000</strong>
+          <span>productos gestionados</span>
+        </div>
+        <div>
+          <strong>COMPLETA</strong>
+          <span>disponibilidad para ti</span>
+        </div>
+        <div>
+          <strong>24/7</strong>
+          <span>información accesible</span>
+        </div>
+      </section>
+
+      <section class="dashboard" data-dashboard hidden>
+        <p class="eyebrow">Área privada</p>
+        <h1>Bienvenido, <span data-username></span></h1>
+        <p>Tu sesión está activa. Aquí se integrarán los módulos de productos, inventario y pedidos cuando el equipo defina sus endpoints.</p>
+        <button type="button" class="button secondary" data-logout>Cerrar sesión</button>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <a class="footer-brand" href="./index.html">Invix</a>
+          <p>Sistema de inventario y pedidos.</p>
+        </div>
+        <div class="footer-links">
+          <a href="./index.html">Inicio</a>
+          <a href="login.html">Ingresar</a>
+          <a href="register.html">Crear cuenta</a>
+        </div>
+        <div class="footer-contact">
+          <span>¿Necesitas ayuda?</span>
+          <a href="mailto:contacto@invix.com">contacto @invix.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Invix. Todos los derechos reservados.</span>
+        <span>Inventario simple, decisiones claras.</span>
+      </div>
+    </footer>
+  </body>
+</html>

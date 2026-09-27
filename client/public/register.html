@@ -1,3 +1,73 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Crear cuenta | Invix</title><link rel="stylesheet" href="../css/styles.css"><link rel="stylesheet" href="../css/laura.css"><script type="module" src="../js/main.js"></script></head>
-<body data-page="register"><header class="site-header"><a class="brand" href="./index.html">Invix</a><nav aria-label="Navegación principal"><a href="./index.html">Inicio</a><a href="./login.html">Ingresar</a></nav></header><main class="auth-layout"><section class="auth-card"><p class="eyebrow">Empieza con Invix</p><h1>Crear cuenta</h1><p>Completa los datos para registrarte.</p><p class="status" role="alert" data-status hidden></p><form data-auth-form><label for="name">Nombre completo</label><input id="name" name="nombre" type="text" autocomplete="name" required minlength="2" maxlength="100"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254"><label for="password">Contraseña</label><input id="password" name="password" type="password" autocomplete="new-password" required minlength="8"><label for="confirmPassword">Confirmar contraseña</label><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required minlength="8"><button type="submit" class="button full">Registrarme</button></form><p class="auth-switch">¿Ya tienes cuenta? <a href="./login.html">Inicia sesión</a></p></section></main><footer>Invix · Sistema de inventario y pedidos</footer></body></html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crear cuenta | Invix</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script type="module" src="../js/main.js"></script>
+  </head>
+  <body data-page="register">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="index.html" aria-label="Invix, inicio">
+          <img src="../../docs/Invix-Logo.svg" alt="Invix">
+        </a>
+        <nav aria-label="Navegación principal">
+          <a href="index.html">Inicio</a>
+          <a href="login.html">Ingresar</a>
+          <a class="button small" href="register.html">Crear cuenta</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="auth-layout">
+      <section class="auth-card">
+        <p class="eyebrow">Empieza con Invix</p>
+        <h1>Crear cuenta</h1>
+        <p>Completa los datos para registrarte.</p>
+        <p class="status" role="alert" data-status hidden></p>
+        <form data-auth-form novalidate>
+          <label for="name">Nombre completo</label>
+          <input id="name" name="nombre" type="text" autocomplete="name" required minlength="2" maxlength="100" aria-describedby="name-error">
+          <span class="error-msg" id="name-error" data-field-error hidden></span>
+
+          <label for="email">Correo electrónico</label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="email-error">
+          <span class="error-msg" id="email-error" data-field-error hidden></span>
+
+          <label for="password">Contraseña</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8" aria-describedby="password-error">
+          <span class="error-msg" id="password-error" data-field-error hidden></span>
+
+          <label for="confirmPassword">Confirmar contraseña</label>
+          <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required minlength="8" aria-describedby="confirmPassword-error">
+          <span class="error-msg" id="confirmPassword-error" data-field-error hidden></span>
+
+          <button type="submit" class="button full">Registrarme</button>
+        </form>
+        <p class="auth-switch">¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <a class="footer-brand" href="index.html">Invix</a>
+          <p>Sistema de inventario y pedidos.</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Inicio</a>
+          <a href="login.html">Ingresar</a>
+        </div>
+        <div class="footer-contact">
+          <span>Contacto</span>
+          <a href="mailto:hola@invix.com">hola@invix.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Invix. Todos los derechos reservados.</span>
+      </div>
+    </footer>
+  </body>
+</html>
