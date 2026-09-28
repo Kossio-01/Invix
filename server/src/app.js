@@ -1,23 +1,20 @@
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const express = require('express');
+const cors = require('cors');
+const healthRoutes = require('./routes/healthRoutes');
+
 const app = express();
+const PORT = process.env.PORT || 4000;
 
-// Puerto configurado por defecto
-const PORT = process.env.PORT || 3000;
-
-// Middleware para procesar JSON
+// CORS restringido al origen del frontend (definido en .env)
+app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(express.json());
 
-// Endpoint de verificación del servidor y API
-app.get('/health', (req, res) => {
-    res.status(200).json({
-        status: 'ok',
-        db: 'connected',
-        message: 'Servidor Express corriendo correctamente'
-    });
+app.use(healthRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Servidor Invix escuchando en http://localhost:${PORT}`);
 });
 
-// Inicializar el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor de Invix ejecutándose en el puerto ${PORT}`);
-    console.log(`Prueba el endpoint en: http://localhost:${PORT}/health`);
-});
+module.exports = app;

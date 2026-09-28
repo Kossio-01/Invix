@@ -388,7 +388,7 @@ Si la base de datos no responde, el endpoint devuelve `503` con `"database": "un
 - [x] Definición del problema, objetivos, alcance e historias de usuario
 - [x] Diagrama E/R y script de creación de tablas 
 - [x] Repositorio base con separación `client/` y `server/`
-- [ ] Endpoint `/health` con verificación de conexión a la base de datos
+- [x] Endpoint `/health` con verificación de conexión a la base de datos
 - [x] `.env.example` y `.gitignore` configurados
 - [ ] Landing page responsive con llamados a la acción
 - [ ] Vistas de Login y Registro maquetadas, con validación de campos
