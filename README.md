@@ -390,8 +390,8 @@ Si la base de datos no responde, el endpoint devuelve `503` con `"database": "un
 - [x] Repositorio base con separación `client/` y `server/`
 - [x] Endpoint `/health` con verificación de conexión a la base de datos
 - [x] `.env.example` y `.gitignore` configurados
-- [ ] Landing page responsive con llamados a la acción
-- [ ] Vistas de Login y Registro maquetadas, con validación de campos
+- [x] Landing page responsive con llamados a la acción
+- [x] Vistas de Login y Registro maquetadas, con validación de campos
 
 ## 14. Equipo
 
