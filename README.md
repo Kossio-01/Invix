@@ -386,7 +386,7 @@ Si la base de datos no responde, el endpoint devuelve `503` con `"database": "un
 ### Checklist del Avance 1
 
 - [x] Definición del problema, objetivos, alcance e historias de usuario
-- [ ] Diagrama E/R y script de creación de tablas - (Se ha realizado la primera propuesta)
+- [x] Diagrama E/R y script de creación de tablas 
 - [x] Repositorio base con separación `client/` y `server/`
 - [ ] Endpoint `/health` con verificación de conexión a la base de datos
 - [x] `.env.example` y `.gitignore` configurados
