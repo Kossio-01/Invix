@@ -63,7 +63,7 @@ CREATE INDEX idx_productos_nombre ON productos (nombre);
 CREATE INDEX idx_productos_activo ON productos (activo);
 -- Consulta típica de inventario: productos activos con stock bajo
 CREATE INDEX idx_productos_stock_bajo ON productos (stock)
-    WHERE activo AND stock <= 10;
+    WHERE activo AND stock <= stock_minimo;
 
 -- ---------------------------------------------------------------------
 -- 3. PEDIDOS
