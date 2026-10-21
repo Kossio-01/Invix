@@ -300,17 +300,14 @@ Base: `/api`. Respuestas en JSON con códigos estándar: `200`, `201`, `204`, `4
 
 ```
 Invix/
-├── Client/                     # Frontend (HTML, CSS y JavaScript Vanilla)
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   ├── api.js              # Cliente HTTP: peticiones, estados de carga y errores
-│   │   └── main.js             # Lógica de interfaz y guardas de rutas
-│   └── public/
-│       ├── index.html          # Landing (pública)
-│       ├── login.html          # Login (pública)
-│       └── register.html       # Registro (pública)
-├── Docs/                       # Diagramas y documentación adicional
+├── client/                     # Frontend Next.js (React y App Router)
+│   ├── app/                    # Layout y páginas de landing, login y registro
+│   ├── components/             # Componentes compartidos de React
+│   ├── css/styles.css          # Estilos globales
+│   ├── js/api.js               # Cliente HTTP y sesión
+│   ├── public/assets/          # Imágenes y logo
+│   └── package.json
+├── docs/                       # Diagramas y documentación adicional
 ├── server/                     # Backend (API REST en Node.js)
 │   ├── src/
 │   │   ├── config/
@@ -329,7 +326,7 @@ Invix/
 └── README.md
 ```
 
-A medida que avance el proyecto se incorporarán: `server/src/services/` (lógica de negocio y transacciones), `server/src/repositories/` (consultas SQL), `server/src/middlewares/` (autenticación, roles, validación y manejo de errores), `server/src/database/seed.sql` (usuario `ADMIN` y productos de ejemplo), `server/uploads/` (ficheros subidos, excluida de Git) y las vistas privadas (dashboard, catálogo, pedidos) en `client/public/`.
+A medida que avance el proyecto se incorporarán: `server/src/services/` (lógica de negocio y transacciones), `server/src/repositories/` (consultas SQL), `server/src/middlewares/` (autenticación, roles, validación y manejo de errores), `server/src/database/seed.sql` (usuario `ADMIN` y productos de ejemplo), `server/uploads/` (ficheros subidos, excluida de Git) y las vistas privadas (dashboard, catálogo, pedidos) en `client/app/`.
 
 ## 11. Configuración y ejecución
 
@@ -355,9 +352,10 @@ ALLOWED_MIME_TYPES=application/pdf,image/jpeg,image/png,image/webp
 1. Clonar el repositorio y crear la base de datos `invix` en PostgreSQL.
 2. Ejecutar `server/src/database/schema.sql` (y `seed.sql` cuando esté disponible).
 3. En `server/`, copiar `.env.example` como `.env` y completar los valores.
-4. Instalar dependencias y arrancar el backend desde `server/`: `npm install` y luego `npm start` (o el script de desarrollo definido en `package.json`).
-5. Servir la carpeta `client/` con un servidor estático (por ejemplo, la extensión Live Server o `npx serve Client`) y abrir la landing. El origen usado debe coincidir con `CORS_ORIGIN`.
-6. Verificar la conexión a la base de datos:
+4. Instalar dependencias y arrancar el backend desde `server/`: `npm install` y luego `npm start`.
+5. En otra terminal, instalar las dependencias del frontend desde `client/` con `npm install` y arrancar Next.js con `npm run dev`.
+6. Abrir `http://localhost:3000`. Si la API usa otra URL, definir `NEXT_PUBLIC_API_URL` antes de arrancar Next.js.
+7. Verificar la conexión a la base de datos:
 
 ```bash
 curl http://localhost:4000/health
