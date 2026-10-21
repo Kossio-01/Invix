@@ -1,10 +1,6 @@
-// Ajustar estas rutas con el responsable del backend si su API usa otros nombres.
-const API_BASE_URL = window.INVIX_API_URL || 'http://localhost:4000';
-const API_ROUTES = Object.freeze({
-  login: '/api/auth/login',
-  register: '/api/auth/register',
-  me: '/api/auth/me'
-});
+'use client';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 const SESSION_KEY = 'invix_session';
 
 export function getSession() {
@@ -41,6 +37,6 @@ export async function apiRequest(path, { method = 'GET', body, auth = false } = 
   }
   return data;
 }
-export const login = (credentials) => apiRequest(API_ROUTES.login, { method: 'POST', body: credentials });
-export const register = (user) => apiRequest(API_ROUTES.register, { method: 'POST', body: user });
-export const getProfile = () => apiRequest(API_ROUTES.me, { auth: true });
+export const login = (credentials) => apiRequest('/api/auth/login', { method: 'POST', body: credentials });
+export const register = (user) => apiRequest('/api/auth/register', { method: 'POST', body: user });
+export const getProfile = () => apiRequest('/api/auth/me', { auth: true });
