@@ -151,7 +151,7 @@ flowchart LR
 | Backend | Node.js (Express) con arquitectura en capas |
 | Base de datos | PostgreSQL (esquema en [`server/src/database/schema.sql`](server/src/database/schema.sql)) |
 | Almacenamiento de ficheros | **[POR DEFINIR]** (disco local del servidor, AWS S3, Supabase o Cloudinary) |
-| Autenticación | **[POR DEFINIR]** (JWT o sesión de servidor) con contraseñas hasheadas |
+| Autenticación | JWT con `jsonwebtoken` y contraseñas hasheadas con `bcryptjs` |
 | Despliegue | **[POR DEFINIR]** |
 
 ### Decisiones de diseño
@@ -342,6 +342,8 @@ Copie `server/.env.example` como `server/.env` y ajuste los valores. **Nunca** s
 PORT=4000
 DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/invix
 AUTH_SECRET=cambiar_por_un_valor_largo_y_aleatorio
+AUTH_TOKEN_EXPIRES_IN=2h
+AUTH_JWT_ISSUER=invix-api
 CORS_ORIGIN=http://127.0.0.1:5500
 UPLOAD_DIR=./uploads
 MAX_UPLOAD_MB=5
