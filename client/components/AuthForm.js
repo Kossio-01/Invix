@@ -14,7 +14,7 @@ function getError(field, values) {
 
 export default function AuthForm({ page }) {
   const isRegister = page === 'register';
-  const [values, setValues] = useState({ nombre: '', email: '', password: '', confirmPassword: '' });
+  const [values, setValues] = useState({ nombre: '', empresa: '', email: '', password: '', confirmPassword: '' });
   const [touched, setTouched] = useState({});
   const [status, setStatus] = useState(null);
   const [pending, setPending] = useState(false);
@@ -33,14 +33,14 @@ export default function AuthForm({ page }) {
 
   async function submit(event) {
     event.preventDefault();
-    const fields = isRegister ? ['nombre', 'email', 'password', 'confirmPassword'] : ['email', 'password'];
+    const fields = isRegister ? ['nombre', 'empresa', 'email', 'password', 'confirmPassword'] : ['email', 'password'];
     setTouched(Object.fromEntries(fields.map(field => [field, true])));
     if (fields.some(field => getError(field, values))) return;
     setPending(true);
     setStatus(null);
     try {
       if (isRegister) {
-        await register({ nombre: values.nombre, email: values.email, password: values.password });
+        await register({ nombre: values.nombre, empresa: values.empresa, email: values.email, password: values.password });
         window.location.replace('/login?registered=1');
       } else {
         saveSession(await login({ email: values.email, password: values.password }));
@@ -71,6 +71,7 @@ export default function AuthForm({ page }) {
     {status && <p className="status" role="alert" data-kind={status.kind}>{status.text}</p>}
     <form onSubmit={submit} noValidate>
       {isRegister && field('nombre', 'Nombre completo', 'text', 'name', { minLength: 2, maxLength: 100 })}
+      {isRegister && field('empresa', 'Nombre de la empresa', 'text', 'organization', { minLength: 2, maxLength: 150 })}
       {field('email', 'Correo electrónico', 'email', 'email', { maxLength: 254 })}
       {field('password', 'Contraseña', 'password', isRegister ? 'new-password' : 'current-password', { minLength: 8 })}
       {isRegister && field('confirmPassword', 'Confirmar contraseña', 'password', 'new-password', { minLength: 8 })}

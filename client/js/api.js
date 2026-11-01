@@ -40,3 +40,14 @@ export async function apiRequest(path, { method = 'GET', body, auth = false } = 
 export const login = (credentials) => apiRequest('/api/auth/login', { method: 'POST', body: credentials });
 export const register = (user) => apiRequest('/api/auth/register', { method: 'POST', body: user });
 export const getProfile = () => apiRequest('/api/auth/me', { auth: true });
+export const getPlans = () => apiRequest('/api/planes');
+export const getSubscription = () => apiRequest('/api/suscripcion', { auth: true });
+export const changeSubscriptionPlan = (planCodigo) => apiRequest('/api/suscripcion', {
+  method: 'PUT',
+  body: { planCodigo },
+  auth: true,
+});
+export const cancelSubscription = () => apiRequest('/api/suscripcion/cancelar', {
+  method: 'POST',
+  auth: true,
+});

@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const healthRoutes = require('./routes/healthRoutes');
 const authRoutes = require('./routes/authRoutes');
-const productRoutes = require('./routes/productRoutes'); // <-- 1. rutas de productos
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(healthRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api', productRoutes); // <-- 2.rutas bajo el prefijo /api
+app.use('/api', subscriptionRoutes);
 
 app.use((error, req, res, next) => {
   console.error('Error no controlado en la API:', error.message);
