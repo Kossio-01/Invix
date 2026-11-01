@@ -350,7 +350,7 @@ ALLOWED_MIME_TYPES=application/pdf,image/jpeg,image/png,image/webp
 ### Puesta en marcha local
 
 1. Clonar el repositorio y crear la base de datos `invix` en PostgreSQL.
-2. Ejecutar `server/src/database/schema.sql` (y `seed.sql` cuando esté disponible).
+2. Ejecutar en este orden, sobre la base invix: server/src/database/schema.sql, setup.sql y seed.sql. El seed crea un ADMIN (admin@invix.com / Admin123!) y un CLIENTE (cliente@invix.com / Cliente123!) de prueba, más 5 productos de ejemplo.
 3. En `server/`, copiar `.env.example` como `.env` y completar los valores.
 4. Instalar dependencias y arrancar el backend desde `server/`: `npm install` y luego `npm start`.
 5. En otra terminal, instalar las dependencias del frontend desde `client/` con `npm install` y arrancar Next.js con `npm run dev`.
