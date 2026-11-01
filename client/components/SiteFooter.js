@@ -4,7 +4,7 @@ export default function SiteFooter() {
   return (
     <footer>
       <div className="footer-inner">
-        <div><Link className="footer-brand" href="/">Invix</Link><p>Sistema de inventario y pedidos.</p></div>
+        <div><Link className="footer-brand" href="/">Invix</Link><p>Suscripciones y acceso para negocios.</p></div>
         <div className="footer-links"><Link href="/">Inicio</Link><Link href="/login">Ingresar</Link><Link href="/register">Crear cuenta</Link></div>
         <div className="footer-contact"><span>Contacto</span><a href="mailto:hola@invix.com">hola@invix.com</a></div>
       </div>

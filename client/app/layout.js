@@ -1,8 +1,8 @@
 import '../css/styles.css';
 
 export const metadata = {
-  title: 'Invix | Inventario y pedidos',
-  description: 'Sistema de inventario y pedidos.',
+  title: 'Invix | Acceso para negocios',
+  description: 'Suscripciones y acceso seguro a la plataforma Invix.',
 };
 
 export default function RootLayout({ children }) {
