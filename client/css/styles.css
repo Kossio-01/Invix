@@ -666,3 +666,39 @@ input.touched:invalid {
     padding: 30px 24px;
   }
 }
+/* Plan catalog and subscription management. */
+html { scroll-behavior: smooth; }
+.subscriptions { width: min(100% - 48px, 1100px); margin: 72px auto; scroll-margin-top: 24px; }
+.plan-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.plan-card { display: flex; flex-direction: column; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: white; box-shadow: var(--shadow); }
+.plan-card.current-plan { border: 2px solid var(--blue); background: var(--blue-lightest); }
+.plan-card h3, .subscription-summary h3 { margin: 12px 0; font-size: 23px; }
+.plan-card > p:not(.plan-price), .plan-note { color: var(--muted); }
+.plan-price { font-size: clamp(24px, 3vw, 32px); font-weight: 800; margin: 20px 0; }
+.plan-price small { display: block; font-size: 13px; font-weight: 500; color: var(--muted); }
+.plan-card ul { padding-left: 20px; margin: 0 0 28px; }
+.plan-card li { margin-bottom: 10px; }
+.plan-card .button { margin-top: auto; }
+.plan-badge { display: inline-block; align-self: flex-start; padding: 6px 12px; border-radius: 30px; background: #eee; font-size: 12px; font-weight: 800; }
+.plan-badge.is-active { background: #d8f2e6; color: #185e3a; }
+.subscription-summary { margin: 0 0 30px; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--blue-lightest); }
+.subscription-summary dl { display: flex; flex-wrap: wrap; gap: 20px 40px; margin: 24px 0; }
+.subscription-summary dt { font-size: 12px; color: var(--muted); }
+.subscription-summary dd { margin: 4px 0 0; font-weight: 700; }
+.button.danger { background: #a72c3e; color: white; }
+.button.danger:hover { background: #842031; }
+.button:disabled { cursor: default; }
+.status[data-kind='error'] { background: #fff0f1; color: #8b2333; }
+.subscription-dialog { width: min(90vw, 500px); max-height: 85vh; padding: 32px; border: 1px solid var(--line); border-radius: 20px; color: var(--ink); box-shadow: var(--shadow); }
+.subscription-dialog::backdrop { background: rgba(14, 32, 50, .6); }
+.subscription-dialog h2 { margin-top: 0; line-height: 1.3; }
+.dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+a:focus-visible, button:focus-visible { outline: 3px solid #1769ae; outline-offset: 4px; }
+@media (max-width: 800px) {
+  .plan-grid { grid-template-columns: 1fr; }
+  .subscriptions { width: calc(100% - 36px); margin: 48px auto; }
+  .dashboard { padding: 28px; margin: 36px auto; }
+  .dashboard h1 { overflow-wrap: anywhere; }
+  .subscription-summary { padding: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .button { transition: none; } }
