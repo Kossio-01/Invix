@@ -42,6 +42,13 @@ export async function apiRequest(path, { method = 'GET', body, auth = false } = 
 export const login = (credentials) => apiRequest('/api/auth/login', { method: 'POST', body: credentials });
 export const register = (user) => apiRequest('/api/auth/register', { method: 'POST', body: user });
 export const getProfile = () => apiRequest('/api/auth/me', { auth: true });
+export const getHealth = () => apiRequest('/health');
+export const getProducts = () => apiRequest('/api/productos', { auth: true });
+export const createProduct = (product) => apiRequest('/api/productos', { method: 'POST', body: product, auth: true });
+export const updateProduct = (id, product) => apiRequest(`/api/productos/${id}`, { method: 'PUT', body: product, auth: true });
+export const deleteProduct = (id) => apiRequest(`/api/productos/${id}`, { method: 'DELETE', auth: true });
+export const getAuditLogs = (limit = 50) => apiRequest(`/api/auditoria?limit=${limit}`, { auth: true });
+export const getCompanySummary = () => apiRequest('/api/dashboard/resumen', { auth: true });
 export const getPlans = () => apiRequest('/api/planes');
 export const getSubscription = () => apiRequest('/api/suscripcion', { auth: true });
 export const changeSubscriptionPlan = (planCodigo) => apiRequest('/api/suscripcion', {

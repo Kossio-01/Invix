@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { clearSession } from '../js/api';
 
 export default function SiteHeader({ user = null }) {
   return (
@@ -9,8 +12,9 @@ export default function SiteHeader({ user = null }) {
         </Link>
         <nav aria-label="Navegación principal">
           <Link href="/">Inicio</Link>
-          <Link href="/#planes">Planes</Link>
-          {user ? <Link className="button small" href="/#planes">Mi suscripción</Link> : <>
+          {user ? <><Link href="/dashboard#planes">Planes</Link>
+            <button type="button" className="button small" onClick={() => { clearSession(); window.location.replace('/'); }}>Cerrar sesión</button>
+          </> : <>
             <Link href="/login">Ingresar</Link>
             <Link className="button small" href="/register">Crear cuenta</Link>
           </>}
