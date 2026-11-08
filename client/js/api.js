@@ -33,7 +33,9 @@ export async function apiRequest(path, { method = 'GET', body, auth = false } = 
   if (!response.ok) {
     if (response.status === 401 && auth) clearSession();
     const error = data?.message || data?.error || `Error del servidor (${response.status}).`;
-    throw new Error(typeof error === 'string' ? error : 'No se pudo completar la operación.');
+    const requestError = new Error(typeof error === 'string' ? error : 'No se pudo completar la operación.');
+    requestError.status = response.status;
+    throw requestError;
   }
   return data;
 }

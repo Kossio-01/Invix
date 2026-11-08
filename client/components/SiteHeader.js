@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function SiteHeader() {
+export default function SiteHeader({ user = null }) {
   return (
     <header className="site-header">
       <div className="header-inner">
@@ -9,8 +9,11 @@ export default function SiteHeader() {
         </Link>
         <nav aria-label="Navegación principal">
           <Link href="/">Inicio</Link>
-          <Link href="/login">Ingresar</Link>
-          <Link className="button small" href="/register">Crear cuenta</Link>
+          <Link href="/#planes">Planes</Link>
+          {user ? <Link className="button small" href="/#planes">Mi suscripción</Link> : <>
+            <Link href="/login">Ingresar</Link>
+            <Link className="button small" href="/register">Crear cuenta</Link>
+          </>}
         </nav>
       </div>
     </header>
