@@ -1,27 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import SiteFooter from '../components/SiteFooter';
 import SiteHeader from '../components/SiteHeader';
-import { clearSession, getProfile, getSession } from '../js/api';
 
 export default function HomePage() {
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    const current = getSession();
-    if (!current) return;
-    setSession(current);
-    getProfile().then(data => setSession({ ...current, user: data?.user || current.user })).catch(() => {
-      clearSession();
-      window.location.replace('/login');
-    });
-  }, []);
-
   return <>
     <SiteHeader />
-    {!session ? <main>
+    <main>
       <section className="hero">
         <div><p className="eyebrow">Tu negocio, una plataforma</p><h1>Administra tu empresa con Invix</h1>
           <p>Elige el plan adecuado para tu negocio y accede a una plataforma diseñada para organizar tu operación.</p>
@@ -39,10 +25,7 @@ export default function HomePage() {
         </div>
       </section>
       <section className="metrics" aria-label="Métricas de Invix"><div><strong>3</strong><span>planes disponibles</span></div><div><strong>SEGURA</strong><span>gestión de acceso</span></div><div><strong>24/7</strong><span>plataforma disponible</span></div></section>
-    </main> : <main><section className="dashboard"><p className="eyebrow">Área privada</p><h1>Bienvenido, {session.user?.nombre || session.user?.email || 'usuario'}</h1>
-      <p>Tu suscripción está activa. Desde aquí tendrás acceso al programa y a las funciones incluidas en tu plan.</p>
-      <button type="button" className="button secondary" onClick={() => { clearSession(); window.location.replace('/login'); }}>Cerrar sesión</button>
-    </section></main>}
+    </main>
     <SiteFooter />
   </>;
 }

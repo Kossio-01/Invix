@@ -57,6 +57,12 @@ La autenticación usa JWT. La API consulta PostgreSQL mediante consultas paramet
 | GET | `/api/suscripcion` | Autenticado | Consulta la suscripción de la empresa |
 | PUT | `/api/suscripcion` | ADMIN | Cambia el plan de la empresa |
 | POST | `/api/suscripcion/cancelar` | ADMIN | Cancela la suscripción activa |
+| GET | `/api/productos` | Autenticado | Lista productos de la empresa |
+| POST | `/api/productos` | ADMIN | Crea un producto |
+| PUT | `/api/productos/:id` | ADMIN | Actualiza un producto |
+| DELETE | `/api/productos/:id` | ADMIN | Desactiva un producto |
+| GET | `/api/auditoria` | Autenticado | Lista cambios de la empresa |
+| GET | `/api/dashboard/resumen` | Autenticado | Resume productos y colaboradores de la empresa |
 
 ## Base de datos
 
@@ -66,8 +72,13 @@ El esquema principal está en `server/src/database/schema.sql` y contiene única
 - `planes`
 - `suscripciones`
 - `usuarios`
+- `productos`
+- `auditoria`
 
 Los datos de prueba están en `server/src/database/seed.sql`.
+Para una base SaaS ya existente, ejecuta una sola vez
+`server/src/database/modules-migration.sql` antes de usar estos módulos. Este archivo elimina la tabla
+`sensores` si quedó creada por una versión anterior.
 
 ## Configuración local
 

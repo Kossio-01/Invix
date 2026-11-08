@@ -44,7 +44,7 @@ export default function AuthForm({ page }) {
         window.location.replace('/login?registered=1');
       } else {
         saveSession(await login({ email: values.email, password: values.password }));
-        window.location.replace('/?dashboard=1');
+        window.location.replace('/dashboard');
       }
     } catch (error) {
       setStatus({ text: error.message, kind: 'error' });
