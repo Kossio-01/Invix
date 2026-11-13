@@ -6,6 +6,7 @@ const healthRoutes = require('./routes/healthRoutes');
 const authRoutes = require('./routes/authRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
 const moduleRoutes = require('./routes/moduleRoutes');
+const collaboratorRoutes = require('./routes/collaboratorRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api', subscriptionRoutes);
+app.use('/api', collaboratorRoutes);
 app.use('/api', moduleRoutes);
 
 app.use((error, req, res, next) => {

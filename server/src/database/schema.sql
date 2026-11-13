@@ -40,18 +40,34 @@ CREATE TABLE usuarios (
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    rol VARCHAR(10) NOT NULL DEFAULT 'CLIENTE',
+    rol VARCHAR(20) NOT NULL DEFAULT 'CLIENTE',
     empresa_id BIGINT NOT NULL REFERENCES empresas(id) ON UPDATE CASCADE ON DELETE RESTRICT,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     creado_en TIMESTAMPTZ NOT NULL DEFAULT now(),
     actualizado_en TIMESTAMPTZ NOT NULL DEFAULT now(),
-    CONSTRAINT ck_usuarios_rol CHECK (rol IN ('CLIENTE', 'ADMIN')),
+    CONSTRAINT ck_usuarios_rol CHECK (rol IN ('CLIENTE', 'ADMIN', 'JEFE_GESTION', 'AYUDANTE')),
     CONSTRAINT ck_usuarios_email CHECK (position('@' IN email) > 1),
     CONSTRAINT ck_usuarios_nombre CHECK (length(btrim(nombre)) > 0)
 );
 
 CREATE UNIQUE INDEX uq_usuarios_email_lower ON usuarios(lower(email));
 CREATE INDEX idx_usuarios_empresa ON usuarios(empresa_id);
+
+CREATE TABLE invitaciones (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    empresa_id BIGINT NOT NULL REFERENCES empresas(id) ON DELETE CASCADE,
+    email VARCHAR(255) NOT NULL,
+    rol VARCHAR(20) NOT NULL,
+    token_hash VARCHAR(64) NOT NULL UNIQUE,
+    expira_en TIMESTAMPTZ NOT NULL,
+    aceptada_en TIMESTAMPTZ,
+    creado_en TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT ck_invitaciones_rol CHECK (rol IN ('JEFE_GESTION', 'AYUDANTE')),
+    CONSTRAINT ck_invitaciones_email CHECK (position('@' IN email) > 1)
+);
+CREATE INDEX idx_invitaciones_empresa ON invitaciones(empresa_id, creado_en DESC);
+CREATE UNIQUE INDEX uq_invitaciones_empresa_email_pendiente
+    ON invitaciones(empresa_id, lower(email)) WHERE aceptada_en IS NULL;
 
 CREATE TABLE productos (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

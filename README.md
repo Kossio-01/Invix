@@ -63,6 +63,12 @@ La autenticación usa JWT. La API consulta PostgreSQL mediante consultas paramet
 | DELETE | `/api/productos/:id` | ADMIN | Desactiva un producto |
 | GET | `/api/auditoria` | Autenticado | Lista cambios de la empresa |
 | GET | `/api/dashboard/resumen` | Autenticado | Resume productos y colaboradores de la empresa |
+| GET | `/api/colaboradores` | ADMIN | Lista miembros e invitaciones pendientes |
+| POST | `/api/colaboradores/invitaciones` | ADMIN | Crea una invitación con rol |
+| PATCH | `/api/colaboradores/:id/rol` | ADMIN | Cambia el rol de un colaborador |
+| DELETE | `/api/colaboradores/:id` | ADMIN | Desactiva un colaborador |
+| DELETE | `/api/colaboradores/invitaciones/:id` | ADMIN | Cancela una invitación pendiente |
+| POST | `/api/invitaciones/:token/aceptar` | Público con token | Acepta una invitación y crea el acceso |
 
 ## Base de datos
 
@@ -72,6 +78,7 @@ El esquema principal está en `server/src/database/schema.sql` y contiene única
 - `planes`
 - `suscripciones`
 - `usuarios`
+- `invitaciones`
 - `productos`
 - `auditoria`
 

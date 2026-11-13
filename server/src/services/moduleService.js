@@ -105,5 +105,5 @@ async function getCompanySummary(empresaId) {
 }
 
 module.exports = {
-  createProduct, deleteProduct, getCompanySummary, deleteProduct, listAudit, listProducts, updateProduct,
+  createProduct, deleteProduct, getCompanySummary, listAudit, listProducts, updateProduct,
 };
