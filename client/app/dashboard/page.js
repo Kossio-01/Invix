@@ -44,6 +44,6 @@ export default function DashboardPage() {
       <SystemHealth maxUsers={summary?.max_usuarios} />
       <SubscriptionPanel user={session.user} />
     </main>
-    <SiteFooter />
+    <SiteFooter user={session.user} />
   </>;
 }

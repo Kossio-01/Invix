@@ -31,6 +31,27 @@ CREATE TABLE IF NOT EXISTS auditoria (
 );
 CREATE INDEX IF NOT EXISTS idx_auditoria_empresa_fecha ON auditoria(empresa_id, creado_en DESC);
 
+ALTER TABLE usuarios DROP CONSTRAINT IF EXISTS ck_usuarios_rol;
+ALTER TABLE usuarios ALTER COLUMN rol TYPE VARCHAR(20);
+ALTER TABLE usuarios ADD CONSTRAINT ck_usuarios_rol
+    CHECK (rol IN ('CLIENTE', 'ADMIN', 'JEFE_GESTION', 'AYUDANTE'));
+
+CREATE TABLE IF NOT EXISTS invitaciones (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    empresa_id BIGINT NOT NULL REFERENCES empresas(id) ON DELETE CASCADE,
+    email VARCHAR(255) NOT NULL,
+    rol VARCHAR(20) NOT NULL,
+    token_hash VARCHAR(64) NOT NULL UNIQUE,
+    expira_en TIMESTAMPTZ NOT NULL,
+    aceptada_en TIMESTAMPTZ,
+    creado_en TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT ck_invitaciones_rol CHECK (rol IN ('JEFE_GESTION', 'AYUDANTE')),
+    CONSTRAINT ck_invitaciones_email CHECK (position('@' IN email) > 1)
+);
+CREATE INDEX IF NOT EXISTS idx_invitaciones_empresa ON invitaciones(empresa_id, creado_en DESC);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_invitaciones_empresa_email_pendiente
+    ON invitaciones(empresa_id, lower(email)) WHERE aceptada_en IS NULL;
+
 DROP TABLE IF EXISTS sensores CASCADE;
 
 COMMIT;

@@ -60,3 +60,19 @@ export const cancelSubscription = () => apiRequest('/api/suscripcion/cancelar', 
   method: 'POST',
   auth: true,
 });
+export const getCollaborators = () => apiRequest('/api/colaboradores', { auth: true });
+export const inviteCollaborator = (data) => apiRequest('/api/colaboradores/invitaciones', {
+  method: 'POST', body: data, auth: true,
+});
+export const updateCollaboratorRole = (id, rol) => apiRequest(`/api/colaboradores/${id}/rol`, {
+  method: 'PATCH', body: { rol }, auth: true,
+});
+export const removeCollaborator = (id) => apiRequest(`/api/colaboradores/${id}`, {
+  method: 'DELETE', auth: true,
+});
+export const cancelCollaboratorInvitation = (id) => apiRequest(`/api/colaboradores/invitaciones/${id}`, {
+  method: 'DELETE', auth: true,
+});
+export const acceptCollaboratorInvitation = (token, data) => apiRequest(`/api/invitaciones/${token}/aceptar`, {
+  method: 'POST', body: data,
+});
