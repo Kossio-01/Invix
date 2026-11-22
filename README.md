@@ -80,6 +80,12 @@ Para una base SaaS ya existente, ejecuta una sola vez
 `server/src/database/modules-migration.sql` antes de usar estos módulos. Este archivo elimina la tabla
 `sensores` si quedó creada por una versión anterior.
 
+Los productos pueden guardar una foto mediante `imagen_url`. Para cargas desde el navegador,
+configura Cloudinary y agrega estas variables públicas en Vercel:
+
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
+- `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET`
+
 ## Configuración local
 
 1. Instala PostgreSQL y crea una base llamada `invix`.

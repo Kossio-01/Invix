@@ -60,3 +60,35 @@ export const cancelSubscription = () => apiRequest('/api/suscripcion/cancelar', 
   method: 'POST',
   auth: true,
 });
+
+export async function uploadProductImage(file) {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+  if (!cloudName || !uploadPreset) {
+    throw new Error('La carga de imágenes no está configurada. Configura Cloudinary en Vercel.');
+  }
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+    throw new Error('La imagen debe estar en formato JPG, PNG o WebP.');
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    throw new Error('La imagen no puede superar 5 MB.');
+  }
+  const form = new FormData();
+  form.append('file', file);
+  form.append('upload_preset', uploadPreset);
+  form.append('folder', 'invix/productos');
+  let response;
+  try {
+    response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: 'POST',
+      body: form,
+    });
+  } catch {
+    throw new Error('No se pudo conectar con el servicio de imágenes.');
+  }
+  const data = await response.json().catch(() => null);
+  if (!response.ok || !data?.secure_url) {
+    throw new Error(data?.error?.message || 'No se pudo cargar la imagen.');
+  }
+  return data.secure_url;
+}

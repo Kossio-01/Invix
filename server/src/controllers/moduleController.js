@@ -30,11 +30,18 @@ function price(value) {
 }
 
 function productData(body) {
+  const imageUrl = typeof body?.imagen_url === 'string' ? body.imagen_url.trim() : '';
+  if (imageUrl && (!/^https?:\/\//i.test(imageUrl) || imageUrl.length > 2048)) {
+    const error = new Error('La imagen debe ser una URL válida de máximo 2048 caracteres.');
+    error.statusCode = 400;
+    throw error;
+  }
   return {
     nombre: text(body?.nombre, 'nombre'),
     sku: body?.sku ? text(body.sku, 'sku', 80) : null,
     stock: number(body?.stock ?? 0, 'stock'),
     precio: price(body?.precio ?? 0),
+    imagen_url: imageUrl || null,
   };
 }
 
