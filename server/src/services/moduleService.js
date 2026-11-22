@@ -88,19 +88,12 @@ async function listAudit(empresaId, limit = 50) {
 async function getCompanySummary(empresaId) {
   const result = await pool.query(
     `SELECT
-       (SELECT COUNT(*) FROM productos WHERE empresa_id = $1 AND activo) AS productos,
-       (SELECT COUNT(*) FROM usuarios WHERE empresa_id = $1 AND activo) AS usuarios,
-       (SELECT p.max_usuarios
-        FROM suscripciones s JOIN planes p ON p.id = s.plan_id
-        WHERE s.empresa_id = $1
-        ORDER BY s.id DESC LIMIT 1) AS max_usuarios`,
+       (SELECT COUNT(*) FROM productos WHERE empresa_id = $1 AND activo) AS productos`,
     [empresaId],
   );
   const row = result.rows[0];
   return {
     productos: Number(row.productos),
-    usuarios: Number(row.usuarios),
-    max_usuarios: row.max_usuarios == null ? null : Number(row.max_usuarios),
   };
 }
 

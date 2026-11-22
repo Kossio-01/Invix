@@ -41,7 +41,7 @@ export default function DashboardPage() {
         <p>Administra tu suscripción y revisa el acceso de tu empresa desde un solo lugar.</p>
       </section>
       <QuickActions summary={summary} />
-      <SystemHealth maxUsers={summary?.max_usuarios} />
+      <SystemHealth />
       <SubscriptionPanel user={session.user} />
     </main>
     <SiteFooter user={session.user} />
