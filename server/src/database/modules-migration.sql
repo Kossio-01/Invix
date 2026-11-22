@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS productos (
 CREATE UNIQUE INDEX IF NOT EXISTS uq_productos_empresa_sku
     ON productos(empresa_id, sku) WHERE sku IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_productos_empresa ON productos(empresa_id, activo);
+ALTER TABLE productos ADD COLUMN IF NOT EXISTS imagen_url TEXT;
 
 CREATE TABLE IF NOT EXISTS auditoria (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

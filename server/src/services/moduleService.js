@@ -10,7 +10,7 @@ async function writeAudit(client, { empresaId, usuarioId, accion, entidad, entid
 
 async function listProducts(empresaId) {
   const result = await pool.query(
-    `SELECT id, nombre, sku, stock, precio, activo, creado_en, actualizado_en
+    `SELECT id, nombre, sku, stock, precio, imagen_url, activo, creado_en, actualizado_en
      FROM productos WHERE empresa_id = $1 ORDER BY id DESC`,
     [empresaId],
   );
@@ -22,10 +22,10 @@ async function createProduct(empresaId, usuarioId, data) {
   try {
     await client.query('BEGIN');
     const result = await client.query(
-      `INSERT INTO productos (empresa_id, nombre, sku, stock, precio)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id, nombre, sku, stock, precio, activo, creado_en, actualizado_en`,
-      [empresaId, data.nombre, data.sku || null, data.stock, data.precio],
+      `INSERT INTO productos (empresa_id, nombre, sku, stock, precio, imagen_url)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING id, nombre, sku, stock, precio, imagen_url, activo, creado_en, actualizado_en`,
+      [empresaId, data.nombre, data.sku || null, data.stock, data.precio, data.imagen_url],
     );
     await writeAudit(client, { empresaId, usuarioId, accion: 'CREAR', entidad: 'PRODUCTO', entidadId: result.rows[0].id, detalle: data });
     await client.query('COMMIT');
@@ -42,10 +42,10 @@ async function updateProduct(empresaId, usuarioId, id, data) {
   try {
     await client.query('BEGIN');
     const result = await client.query(
-      `UPDATE productos SET nombre = $1, sku = $2, stock = $3, precio = $4, actualizado_en = now()
-       WHERE id = $5 AND empresa_id = $6
-       RETURNING id, nombre, sku, stock, precio, activo, creado_en, actualizado_en`,
-      [data.nombre, data.sku || null, data.stock, data.precio, id, empresaId],
+      `UPDATE productos SET nombre = $1, sku = $2, stock = $3, precio = $4, imagen_url = $5, actualizado_en = now()
+       WHERE id = $6 AND empresa_id = $7
+       RETURNING id, nombre, sku, stock, precio, imagen_url, activo, creado_en, actualizado_en`,
+      [data.nombre, data.sku || null, data.stock, data.precio, data.imagen_url, id, empresaId],
     );
     if (!result.rows[0]) {
       const error = new Error('Producto no encontrado.'); error.statusCode = 404; throw error;

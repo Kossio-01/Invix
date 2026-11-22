@@ -5,10 +5,10 @@ import BackToDashboard from '../../../components/BackToDashboard';
 import SiteFooter from '../../../components/SiteFooter';
 import SiteHeader from '../../../components/SiteHeader';
 import {
-  clearSession, createProduct, deleteProduct, getProfile, getProducts, getSession, updateProduct,
+  clearSession, createProduct, deleteProduct, getProfile, getProducts, getSession, updateProduct, uploadProductImage,
 } from '../../../js/api';
 
-const emptyProduct = { nombre: '', sku: '', stock: 0, precio: 0 };
+const emptyProduct = { nombre: '', sku: '', stock: 0, precio: 0, imagen_url: '' };
 
 export default function ProductsPage() {
   const [session, setSession] = useState(null);
@@ -19,6 +19,8 @@ export default function ProductsPage() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
 
   const isAdmin = session?.user?.rol === 'ADMIN';
 
@@ -70,7 +72,10 @@ export default function ProductsPage() {
       sku: product.sku || '',
       stock: product.stock,
       precio: product.precio,
+      imagen_url: product.imagen_url || '',
     });
+    setSelectedFile(null);
+    setImagePreview(product.imagen_url || '');
     setNotice('');
     setError('');
   }
@@ -78,6 +83,16 @@ export default function ProductsPage() {
   function resetForm() {
     setEditingId(null);
     setForm(emptyProduct);
+    setSelectedFile(null);
+    setImagePreview('');
+  }
+
+  function selectImage(event) {
+    const file = event.target.files?.[0] || null;
+    setError('');
+    setSelectedFile(file);
+    if (file) setImagePreview(URL.createObjectURL(file));
+    else setImagePreview(form.imagen_url || '');
   }
 
   async function submit(event) {
@@ -86,13 +101,16 @@ export default function ProductsPage() {
     setPending(true);
     setError('');
     setNotice('');
-    const payload = {
-      nombre: form.nombre.trim(),
-      sku: form.sku.trim() || null,
-      stock: Number(form.stock),
-      precio: Number(form.precio),
-    };
     try {
+      let imageUrl = form.imagen_url.trim();
+      if (selectedFile) imageUrl = await uploadProductImage(selectedFile);
+      const payload = {
+        nombre: form.nombre.trim(),
+        sku: form.sku.trim() || null,
+        stock: Number(form.stock),
+        precio: Number(form.precio),
+        imagen_url: imageUrl || null,
+      };
       const response = editingId
         ? await updateProduct(editingId, payload)
         : await createProduct(payload);
@@ -142,10 +160,23 @@ export default function ProductsPage() {
         <div className="section-heading compact"><p className="eyebrow">{editingId ? 'Editar producto' : 'Nuevo producto'}</p>
           <h2 id="product-form-title">{editingId ? 'Actualizar producto' : 'Registrar producto'}</h2></div>
         <form className="product-form" onSubmit={submit}>
-          <label>Nombre<input name="nombre" value={form.nombre} onChange={changeField} required maxLength={150} /></label>
-          <label>SKU<input name="sku" value={form.sku} onChange={changeField} maxLength={80} /></label>
-          <label>Stock<input name="stock" type="number" min="0" step="1" value={form.stock} onChange={changeField} required /></label>
-          <label>Precio<input name="precio" type="number" min="0" step="0.01" value={form.precio} onChange={changeField} required /></label>
+          <div className="product-image-field">
+            <span>Foto del producto <small>(opcional)</small></span>
+            <label className="product-image-picker">
+              {imagePreview
+                ? <img src={imagePreview} alt="Vista previa del producto" />
+                : <span className="product-image-placeholder"><b>+</b><span>Agregar foto</span></span>}
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={selectImage} />
+            </label>
+            {imagePreview && <button type="button" className="button small secondary" onClick={() => { setSelectedFile(null); setImagePreview(''); setForm(current => ({ ...current, imagen_url: '' })); }}>Quitar foto</button>}
+          </div>
+          <div className="product-fields">
+            <label>Nombre<input name="nombre" value={form.nombre} onChange={changeField} required maxLength={150} /></label>
+            <label>SKU<input name="sku" value={form.sku} onChange={changeField} maxLength={80} /></label>
+            <label>Stock<input name="stock" type="number" min="0" step="1" value={form.stock} onChange={changeField} required /></label>
+            <label>Precio<input name="precio" type="number" min="0" step="0.01" value={form.precio} onChange={changeField} required /></label>
+            <label className="product-url-field">URL de imagen <small>Alternativa opcional</small><input name="imagen_url" type="url" value={form.imagen_url} onChange={changeField} placeholder="https://..." /></label>
+          </div>
           <div className="product-form-actions"><button className="button" disabled={pending}>{pending ? 'Guardando...' : editingId ? 'Guardar cambios' : 'Crear producto'}</button>
             {editingId && <button type="button" className="button secondary" onClick={resetForm} disabled={pending}>Cancelar edición</button>}</div>
         </form>
@@ -154,13 +185,27 @@ export default function ProductsPage() {
       <section className="product-list-card" aria-labelledby="products-list-title">
         <div className="section-heading compact"><p className="eyebrow">Catálogo empresarial</p><h2 id="products-list-title">Productos activos</h2></div>
         {loading ? <p role="status">Consultando productos...</p> : products.length === 0 ? <p className="empty-state">No hay productos activos registrados.</p> :
-          <div className="table-wrapper"><table><thead><tr><th>Nombre</th><th>SKU</th><th>Stock</th><th>Precio</th>{isAdmin && <th>Acciones</th>}</tr></thead>
-            <tbody>{products.filter(product => product.activo).map(product => <tr key={product.id}>
-              <td>{product.nombre}</td><td>{product.sku || '—'}</td><td>{product.stock}</td>
-              <td>{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(product.precio)}</td>
-              {isAdmin && <td className="table-actions"><button className="button small secondary" onClick={() => startEditing(product)} disabled={pending}>Editar</button>
-                <button className="button small danger" onClick={() => deactivate(product)} disabled={pending}>Desactivar</button></td>}
-            </tr>)}</tbody></table></div>}
+          <div className="product-grid">
+            {products.filter(product => product.activo).map(product => <article className="product-card" key={product.id}>
+              <div className="product-card-image">
+                {product.imagen_url
+                  ? <img src={product.imagen_url} alt={product.nombre} />
+                  : <div className="product-card-placeholder"><span aria-hidden="true">▣</span><small>Sin foto</small></div>}
+              </div>
+              <div className="product-card-body">
+                <p className="product-sku">{product.sku || 'Sin SKU'}</p>
+                <h3>{product.nombre}</h3>
+                <div className="product-card-meta">
+                  <div><span>Stock</span><strong>{product.stock}</strong></div>
+                  <div><span>Precio</span><strong>{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(product.precio)}</strong></div>
+                </div>
+                {isAdmin && <div className="product-card-actions">
+                  <button className="button small secondary" onClick={() => startEditing(product)} disabled={pending}>Editar</button>
+                  <button className="button small danger" onClick={() => deactivate(product)} disabled={pending}>Desactivar</button>
+                </div>}
+              </div>
+            </article>)}
+          </div>}
       </section>
     </main>
     <SiteFooter user={session.user} />

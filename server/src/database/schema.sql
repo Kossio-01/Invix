@@ -61,6 +61,7 @@ CREATE TABLE productos (
     sku VARCHAR(80),
     stock INTEGER NOT NULL DEFAULT 0,
     precio NUMERIC(12,2) NOT NULL DEFAULT 0,
+    imagen_url TEXT,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     creado_en TIMESTAMPTZ NOT NULL DEFAULT now(),
     actualizado_en TIMESTAMPTZ NOT NULL DEFAULT now(),
