@@ -104,8 +104,8 @@ export default function SubscriptionPanel({ user = null }) {
     </article>}
     {!loading && !error && user && <div className="subscription-details">
       <section className="usage-card"><div className="section-heading compact"><p className="eyebrow">Uso del plan</p><h3>Consumo actual</h3></div>
-        <div className="usage-item"><div><span>Usuarios utilizados</span><strong>1 {currentPlan?.max_usuarios ? `de ${currentPlan.max_usuarios}` : ''}</strong></div>
-          <progress value="1" max={currentPlan?.max_usuarios || 1} /></div>
+        <div className="usage-item"><div><span>Cuenta empresarial</span><strong>1 cuenta activa</strong></div>
+          <progress value="1" max="1" /></div>
         <div className="usage-item"><div><span>Registros administrados</span><strong>Disponible próximamente</strong></div><progress value="0" max="100" /></div>
       </section>
       <section className="billing-card"><div className="section-heading compact"><p className="eyebrow">Facturación</p><h3>Historial de recibos</h3></div>
@@ -125,7 +125,7 @@ export default function SubscriptionPanel({ user = null }) {
         {current && <span className="plan-badge is-active">Tu plan actual</span>}
         <h3>{plan.nombre}</h3><p>{plan.descripcion}</p>
         <p className="plan-price">{money(displayedPrice)}<small>{billingCycle === 'annual' ? ' COP / año' : ' COP / mes'}</small></p>
-        <ul><li>{plan.max_usuarios == null ? 'Usuarios ilimitados' : `Hasta ${plan.max_usuarios} ${Number(plan.max_usuarios) === 1 ? 'usuario' : 'usuarios'}`}</li>
+        <ul><li>Una cuenta administrativa por negocio</li>
           <li>Acceso a la plataforma Invix</li></ul>
         {!user ? <Link className="button" href="/register">Crear cuenta</Link> :
           <button className={`button ${current ? 'secondary' : ''}`} disabled={!admin || current || pending}

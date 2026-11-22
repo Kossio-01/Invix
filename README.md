@@ -33,7 +33,7 @@ En esta fase la suscripción se crea activa sin integrar una pasarela de pago.
 | CLIENTE | Acceso al programa contratado |
 | ADMIN | Administración de la empresa y sus usuarios |
 
-El primer usuario registrado por una empresa queda como `ADMIN`, porque es quien administra la cuenta y su suscripción. Los usuarios `CLIENTE` quedan disponibles para una futura gestión de miembros.
+Cada negocio tiene una sola cuenta administrativa. El primer usuario registrado por una empresa queda como `ADMIN`, y es el único responsable de administrar la cuenta y su suscripción.
 
 ## Arquitectura
 
@@ -62,7 +62,7 @@ La autenticación usa JWT. La API consulta PostgreSQL mediante consultas paramet
 | PUT | `/api/productos/:id` | ADMIN | Actualiza un producto |
 | DELETE | `/api/productos/:id` | ADMIN | Desactiva un producto |
 | GET | `/api/auditoria` | Autenticado | Lista cambios de la empresa |
-| GET | `/api/dashboard/resumen` | Autenticado | Resume productos y colaboradores de la empresa |
+| GET | `/api/dashboard/resumen` | Autenticado | Resume productos y la cuenta empresarial |
 
 ## Base de datos
 

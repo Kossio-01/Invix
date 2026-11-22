@@ -5,9 +5,9 @@ BEGIN;
 
 INSERT INTO planes (codigo, nombre, descripcion, max_usuarios, precio_mensual)
 VALUES
-    ('BASICO', 'Plan Básico', 'Acceso esencial para negocios pequeños.', 1, 29900),
-    ('PROFESIONAL', 'Plan Profesional', 'Más usuarios y funciones para equipos en crecimiento.', 5, 79900),
-    ('EMPRESARIAL', 'Plan Empresarial', 'Acceso ampliado para empresas grandes.', NULL, 159900)
+    ('BASICO', 'Plan Básico', 'Acceso esencial para una cuenta empresarial.', 1, 29900),
+    ('PROFESIONAL', 'Plan Profesional', 'Funciones avanzadas para una cuenta empresarial.', 1, 79900),
+    ('EMPRESARIAL', 'Plan Empresarial', 'Servicios ampliados para una cuenta empresarial.', 1, 159900)
 ON CONFLICT (codigo) DO NOTHING;
 
 INSERT INTO empresas (nombre)
@@ -28,10 +28,7 @@ INSERT INTO usuarios (nombre, email, password_hash, rol, empresa_id)
 VALUES
     ('Administrador Invix', 'admin@invix.com',
      '$2b$10$UNyJGdA.yDmB9bfjE.Npl.EPA0Us3ntSVM9XbaEiGCjVukEeptYw6',
-     'ADMIN', (SELECT id FROM empresas WHERE nombre = 'Empresa Demo Invix' LIMIT 1)),
-    ('Cliente de Prueba', 'cliente@invix.com',
-     '$2b$10$ZboE3fPhTj3saqd/7MdJpe4Cfqn1fwfMv8mF4c2pwjaekbmLvKEdS',
-     'CLIENTE', (SELECT id FROM empresas WHERE nombre = 'Empresa Demo Invix' LIMIT 1))
+     'ADMIN', (SELECT id FROM empresas WHERE nombre = 'Empresa Demo Invix' LIMIT 1))
 ON CONFLICT (lower(email)) DO NOTHING;
 
 COMMIT;

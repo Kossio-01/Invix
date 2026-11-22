@@ -31,6 +31,13 @@ CREATE TABLE IF NOT EXISTS auditoria (
 );
 CREATE INDEX IF NOT EXISTS idx_auditoria_empresa_fecha ON auditoria(empresa_id, creado_en DESC);
 
+DROP TABLE IF EXISTS invitaciones CASCADE;
+ALTER TABLE usuarios DROP CONSTRAINT IF EXISTS ck_usuarios_rol;
+UPDATE usuarios SET rol = 'CLIENTE' WHERE rol NOT IN ('CLIENTE', 'ADMIN');
+ALTER TABLE usuarios ALTER COLUMN rol TYPE VARCHAR(10);
+ALTER TABLE usuarios ADD CONSTRAINT ck_usuarios_rol
+    CHECK (rol IN ('CLIENTE', 'ADMIN'));
+
 DROP TABLE IF EXISTS sensores CASCADE;
 
 COMMIT;

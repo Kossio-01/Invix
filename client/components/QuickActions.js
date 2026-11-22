@@ -3,7 +3,6 @@ import Link from 'next/link';
 export default function QuickActions({ summary }) {
   const actions = [
     { href: '/dashboard/productos', icon: '▣', title: 'Inventario / Productos', detail: `${summary?.productos ?? 0} productos registrados` },
-    { href: '/dashboard/colaboradores', icon: '◎', title: 'Colaboradores', detail: `${summary?.usuarios ?? 0} de ${summary?.max_usuarios ?? '∞'} usuarios registrados` },
     { href: '/dashboard/auditoria', icon: '◷', title: 'Auditoría / Logs', detail: 'Consulta los cambios de la empresa' },
   ];
 

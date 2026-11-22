@@ -53,6 +53,7 @@ CREATE TABLE usuarios (
 CREATE UNIQUE INDEX uq_usuarios_email_lower ON usuarios(lower(email));
 CREATE INDEX idx_usuarios_empresa ON usuarios(empresa_id);
 
+
 CREATE TABLE productos (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     empresa_id BIGINT NOT NULL REFERENCES empresas(id) ON DELETE CASCADE,
