@@ -765,6 +765,7 @@ html { scroll-behavior: smooth; }
 .product-image-picker img { width: 100%; height: 100%; object-fit: cover; }
 .product-image-placeholder { display: grid; justify-items: center; gap: 6px; color: var(--blue); }
 .product-image-placeholder b { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 50%; color: var(--white); background: var(--blue); font-size: 26px; line-height: 1; }
+.product-image-placeholder.locked { width: 220px; min-height: 220px; padding: 18px; border: 2px dashed var(--line); border-radius: 16px; text-align: center; background: var(--blue-lightest); }
 .product-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-content: start; }
 .product-url-field { grid-column: 1 / -1; }
 .product-url-field small { font-weight: 500; }

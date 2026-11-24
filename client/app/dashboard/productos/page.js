@@ -23,6 +23,7 @@ export default function ProductsPage() {
   const [imagePreview, setImagePreview] = useState('');
 
   const isAdmin = session?.user?.rol === 'ADMIN';
+  const canUseImages = session?.user?.plan?.codigo !== 'BASICO';
 
   async function loadProducts() {
     setLoading(true);
@@ -160,7 +161,7 @@ export default function ProductsPage() {
         <div className="section-heading compact"><p className="eyebrow">{editingId ? 'Editar producto' : 'Nuevo producto'}</p>
           <h2 id="product-form-title">{editingId ? 'Actualizar producto' : 'Registrar producto'}</h2></div>
         <form className="product-form" onSubmit={submit}>
-          <div className="product-image-field">
+          {canUseImages ? <div className="product-image-field">
             <span>Foto del producto <small>(opcional)</small></span>
             <label className="product-image-picker">
               {imagePreview
@@ -169,13 +170,16 @@ export default function ProductsPage() {
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={selectImage} />
             </label>
             {imagePreview && <button type="button" className="button small secondary" onClick={() => { setSelectedFile(null); setImagePreview(''); setForm(current => ({ ...current, imagen_url: '' })); }}>Quitar foto</button>}
-          </div>
+          </div> : <div className="product-image-field">
+            <span>Fotos de productos</span>
+            <div className="product-image-placeholder locked" role="note"><b>🔒</b><span>Disponible desde el Plan Profesional</span></div>
+          </div>}
           <div className="product-fields">
             <label>Nombre<input name="nombre" value={form.nombre} onChange={changeField} required maxLength={150} /></label>
             <label>SKU<input name="sku" value={form.sku} onChange={changeField} maxLength={80} /></label>
             <label>Stock<input name="stock" type="number" min="0" step="1" value={form.stock} onChange={changeField} required /></label>
             <label>Precio<input name="precio" type="number" min="0" step="0.01" value={form.precio} onChange={changeField} required /></label>
-            <label className="product-url-field">URL de imagen <small>Alternativa opcional</small><input name="imagen_url" type="url" value={form.imagen_url} onChange={changeField} placeholder="https://..." /></label>
+            {canUseImages && <label className="product-url-field">URL de imagen <small>Alternativa opcional</small><input name="imagen_url" type="url" value={form.imagen_url} onChange={changeField} placeholder="https://..." /></label>}
           </div>
           <div className="product-form-actions"><button className="button" disabled={pending}>{pending ? 'Guardando...' : editingId ? 'Guardar cambios' : 'Crear producto'}</button>
             {editingId && <button type="button" className="button secondary" onClick={resetForm} disabled={pending}>Cancelar edición</button>}</div>

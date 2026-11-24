@@ -17,10 +17,13 @@ CREATE TABLE planes (
     nombre VARCHAR(80) NOT NULL,
     descripcion TEXT,
     max_usuarios INTEGER,
+    max_productos INTEGER,
+    permite_imagenes BOOLEAN NOT NULL DEFAULT FALSE,
     precio_mensual NUMERIC(12,2) NOT NULL,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT ck_planes_precio CHECK (precio_mensual >= 0),
-    CONSTRAINT ck_planes_max_usuarios CHECK (max_usuarios IS NULL OR max_usuarios > 0)
+    CONSTRAINT ck_planes_max_usuarios CHECK (max_usuarios IS NULL OR max_usuarios > 0),
+    CONSTRAINT ck_planes_max_productos CHECK (max_productos IS NULL OR max_productos > 0)
 );
 
 CREATE TABLE suscripciones (

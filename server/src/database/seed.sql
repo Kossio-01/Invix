@@ -3,12 +3,19 @@
 
 BEGIN;
 
-INSERT INTO planes (codigo, nombre, descripcion, max_usuarios, precio_mensual)
+INSERT INTO planes (codigo, nombre, descripcion, max_usuarios, max_productos, permite_imagenes, precio_mensual)
 VALUES
-    ('BASICO', 'Plan Básico', 'Acceso esencial para una cuenta empresarial.', 1, 29900),
-    ('PROFESIONAL', 'Plan Profesional', 'Funciones avanzadas para una cuenta empresarial.', 1, 79900),
-    ('EMPRESARIAL', 'Plan Empresarial', 'Servicios ampliados para una cuenta empresarial.', 1, 159900)
-ON CONFLICT (codigo) DO NOTHING;
+    ('BASICO', 'Plan Básico', 'Productos, stock y auditoría básica.', 1, 50, FALSE, 29900),
+    ('PROFESIONAL', 'Plan Profesional', 'Fotos, catálogo ampliado y auditoría completa.', 1, 500, TRUE, 79900),
+    ('EMPRESARIAL', 'Plan Empresarial', 'Catálogo ilimitado y todas las funciones.', 1, NULL, TRUE, 159900)
+ON CONFLICT (codigo) DO UPDATE SET
+    nombre = EXCLUDED.nombre,
+    descripcion = EXCLUDED.descripcion,
+    max_usuarios = EXCLUDED.max_usuarios,
+    max_productos = EXCLUDED.max_productos,
+    permite_imagenes = EXCLUDED.permite_imagenes,
+    precio_mensual = EXCLUDED.precio_mensual,
+    activo = TRUE;
 
 INSERT INTO empresas (nombre)
 SELECT 'Empresa Demo Invix'
