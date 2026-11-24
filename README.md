@@ -1,14 +1,14 @@
 # Invix — Plataforma SaaS de suscripciones y acceso empresarial
 
-Invix es una plataforma SaaS para negocios. Una empresa se registra, obtiene una suscripción y sus usuarios acceden al programa según el plan contratado. El alcance actual se centra en empresas, planes, suscripciones, autenticación y control de acceso.
+Invix es una plataforma SaaS para negocios. Una empresa registra una única cuenta administrativa, contrata una suscripción y organiza su inventario según el plan seleccionado. El alcance actual se centra en empresas, planes, suscripciones, autenticación, productos e auditoría.
 
 ## Alcance actual
 
-- Registro de una empresa junto con su usuario inicial.
+- Registro de una empresa junto con su única cuenta administrativa.
 - Planes Básico, Profesional y Empresarial.
 - Suscripción activa asociada a cada empresa.
 - Login con JWT y contraseñas protegidas con bcrypt.
-- Roles `ADMIN` y `CLIENTE`.
+- Rol administrativo `ADMIN`.
 - Consulta de perfil, empresa y plan mediante `/api/auth/me`.
 - Validación de sesión y protección de rutas.
 - Landing page y formularios responsive.
@@ -17,11 +17,11 @@ Los pagos reales, la renovación automática y los módulos internos del program
 
 ## Planes del MVP
 
-| Plan | Usuarios | Precio mensual de referencia |
-| :-- | --: | --: |
-| Básico | 1 | $29.900 |
-| Profesional | 5 | $79.900 |
-| Empresarial | Ilimitados | $159.900 |
+| Plan | Productos activos | Fotos | Precio mensual de referencia |
+| :-- | --: | :--: | --: |
+| Básico | Hasta 50 | No disponibles | $29.900 |
+| Profesional | Hasta 500 | Disponibles | $79.900 |
+| Empresarial | Ilimitados | Disponibles | $159.900 |
 
 En esta fase la suscripción se crea activa sin integrar una pasarela de pago.
 
@@ -30,17 +30,16 @@ En esta fase la suscripción se crea activa sin integrar una pasarela de pago.
 | Rol | Acceso |
 | :-- | :-- |
 | Visitante | Landing, registro y login |
-| CLIENTE | Acceso al programa contratado |
-| ADMIN | Administración de la empresa y sus usuarios |
+| ADMIN | Administración de la empresa, sus productos y su suscripción |
 
-Cada negocio tiene una sola cuenta administrativa. El primer usuario registrado por una empresa queda como `ADMIN`, y es el único responsable de administrar la cuenta y su suscripción.
+Cada negocio tiene una sola cuenta administrativa. El usuario registrado al crear la empresa queda como `ADMIN` y es el único responsable de administrar el inventario y la suscripción.
 
 ## Arquitectura
 
 ```text
 client/       Frontend Next.js, React y App Router
 server/       API REST Node.js y Express
-PostgreSQL    Empresas, planes, suscripciones y usuarios
+PostgreSQL    Empresas, planes, suscripciones y productos
 ```
 
 La autenticación usa JWT. La API consulta PostgreSQL mediante consultas parametrizadas y el contexto autenticado incluye la empresa y el plan del usuario.
@@ -139,8 +138,7 @@ Respuesta esperada:
 Después de ejecutar `seed.sql`:
 
 ```text
-ADMIN:   admin@invix.com / Admin123!
-CLIENTE: cliente@invix.com / Cliente123!
+ADMIN: admin@invix.com / Admin123!
 ```
 
 ## Flujo Git
@@ -151,9 +149,6 @@ CLIENTE: cliente@invix.com / Cliente123!
 
 ## Trabajo futuro
 
-- Selección de plan desde la interfaz.
 - Integración de pagos.
 - Renovación y cancelación de suscripciones.
-- Aplicación de límites por plan.
-- Panel administrativo de empresas y usuarios.
-- Desarrollo del programa de gestión al que da acceso cada suscripción.
+- Gestión avanzada de facturas.

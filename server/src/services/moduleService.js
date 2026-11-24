@@ -21,6 +21,30 @@ async function createProduct(empresaId, usuarioId, data) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
+    const plan = await client.query(
+      `SELECT p.codigo, p.max_productos, p.permite_imagenes
+       FROM suscripciones s JOIN planes p ON p.id = s.plan_id
+       WHERE s.empresa_id = $1 AND s.estado = 'ACTIVA'
+       ORDER BY s.id DESC LIMIT 1`,
+      [empresaId],
+    );
+    const currentPlan = plan.rows[0];
+    if (currentPlan?.permite_imagenes === false && data.imagen_url) {
+      const error = new Error('Las imágenes están disponibles desde el Plan Profesional.');
+      error.statusCode = 403;
+      throw error;
+    }
+    if (currentPlan?.max_productos != null) {
+      const count = await client.query(
+        'SELECT COUNT(*) FROM productos WHERE empresa_id = $1 AND activo',
+        [empresaId],
+      );
+      if (Number(count.rows[0].count) >= Number(currentPlan.max_productos)) {
+        const error = new Error(`El Plan ${currentPlan.codigo} permite hasta ${currentPlan.max_productos} productos activos.`);
+        error.statusCode = 409;
+        throw error;
+      }
+    }
     const result = await client.query(
       `INSERT INTO productos (empresa_id, nombre, sku, stock, precio, imagen_url)
        VALUES ($1, $2, $3, $4, $5, $6)
@@ -41,6 +65,18 @@ async function updateProduct(empresaId, usuarioId, id, data) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
+    const plan = await client.query(
+      `SELECT p.permite_imagenes
+       FROM suscripciones s JOIN planes p ON p.id = s.plan_id
+       WHERE s.empresa_id = $1 AND s.estado = 'ACTIVA'
+       ORDER BY s.id DESC LIMIT 1`,
+      [empresaId],
+    );
+    if (plan.rows[0]?.permite_imagenes === false && data.imagen_url) {
+      const error = new Error('Las imágenes están disponibles desde el Plan Profesional.');
+      error.statusCode = 403;
+      throw error;
+    }
     const result = await client.query(
       `UPDATE productos SET nombre = $1, sku = $2, stock = $3, precio = $4, imagen_url = $5, actualizado_en = now()
        WHERE id = $6 AND empresa_id = $7

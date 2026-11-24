@@ -2,7 +2,7 @@ const pool = require('../config/db');
 
 async function listPlans() {
   const result = await pool.query(
-    `SELECT id, codigo, nombre, descripcion, max_usuarios, precio_mensual, activo
+    `SELECT id, codigo, nombre, descripcion, max_usuarios, max_productos, permite_imagenes, precio_mensual, activo
      FROM planes
      WHERE activo
      ORDER BY precio_mensual ASC, id ASC`,
@@ -18,7 +18,7 @@ async function findSubscriptionByCompanyId(empresaId) {
   const result = await pool.query(
     `SELECT s.id, s.empresa_id, s.plan_id, s.estado, s.inicia_en, s.termina_en,
             p.codigo AS plan_codigo, p.nombre AS plan_nombre,
-            p.descripcion AS plan_descripcion, p.max_usuarios, p.precio_mensual
+            p.descripcion AS plan_descripcion, p.max_usuarios, p.max_productos, p.permite_imagenes, p.precio_mensual
      FROM suscripciones s
      JOIN planes p ON p.id = s.plan_id
      WHERE s.empresa_id = $1
@@ -34,7 +34,7 @@ async function changePlan(empresaId, planCodigo) {
   try {
     await client.query('BEGIN');
     const plan = await client.query(
-      `SELECT id, codigo, nombre, descripcion, max_usuarios, precio_mensual
+      `SELECT id, codigo, nombre, descripcion, max_usuarios, max_productos, permite_imagenes, precio_mensual
        FROM planes
        WHERE codigo = $1 AND activo
        LIMIT 1`,

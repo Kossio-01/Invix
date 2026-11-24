@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { cancelSubscription, changeSubscriptionPlan, getPlans, getSubscription } from '../js/api';
+import { cancelSubscription, changeSubscriptionPlan, getCompanySummary, getPlans, getSubscription } from '../js/api';
 
 const money = value => new Intl.NumberFormat('es-CO', {
   style: 'currency', currency: 'COP', maximumFractionDigits: 0,
@@ -16,6 +16,7 @@ export default function SubscriptionPanel({ user = null }) {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [pending, setPending] = useState(false);
+  const [productCount, setProductCount] = useState(0);
   const [action, setAction] = useState(null);
   const [billingCycle, setBillingCycle] = useState('monthly');
   const dialog = useRef(null);
@@ -31,14 +32,16 @@ export default function SubscriptionPanel({ user = null }) {
     setLoading(true);
     setError('');
     try {
-      const [catalog, current] = await Promise.all([
+      const [catalog, current, summary] = await Promise.all([
         getPlans(), user ? getSubscription().catch(err => {
           if (err.status === 404) return { data: null };
           throw err;
         }) : Promise.resolve({ data: null }),
+        user ? getCompanySummary().catch(() => ({ data: { productos: 0 } })) : Promise.resolve({ data: { productos: 0 } }),
       ]);
       setPlans(catalog.data);
       setSubscription(current.data);
+      setProductCount(Number(summary.data?.productos || 0));
     } catch (err) { setError(err.message); }
     finally { setLoading(false); }
   }
@@ -68,6 +71,8 @@ export default function SubscriptionPanel({ user = null }) {
         plan_nombre: updated.plan.nombre,
         precio_mensual: updated.plan.precio_mensual,
         max_usuarios: updated.plan.max_usuarios,
+        max_productos: updated.plan.max_productos,
+        permite_imagenes: updated.plan.permite_imagenes,
       } : { ...subscription, ...updated });
       setNotice(result.message);
     } catch (err) { setError(err.message); }
@@ -106,14 +111,16 @@ export default function SubscriptionPanel({ user = null }) {
       <section className="usage-card"><div className="section-heading compact"><p className="eyebrow">Uso del plan</p><h3>Consumo actual</h3></div>
         <div className="usage-item"><div><span>Cuenta empresarial</span><strong>1 cuenta activa</strong></div>
           <progress value="1" max="1" /></div>
-        <div className="usage-item"><div><span>Registros administrados</span><strong>Disponible próximamente</strong></div><progress value="0" max="100" /></div>
+        <div className="usage-item"><div><span>Productos activos</span><strong>{productCount}{currentPlan?.max_productos ? ` de ${currentPlan.max_productos}` : ''}</strong></div>
+          <progress value={productCount} max={currentPlan?.max_productos || Math.max(productCount, 1)} /></div>
+        <div className="usage-item"><div><span>Fotos de productos</span><strong>{currentPlan?.permite_imagenes ? 'Incluidas' : 'Solo desde Profesional'}</strong></div></div>
       </section>
       <section className="billing-card"><div className="section-heading compact"><p className="eyebrow">Facturación</p><h3>Historial de recibos</h3></div>
         <p className="empty-state">Todavía no hay facturas porque los pagos reales aún no están habilitados.</p>
       </section>
     </div>}
-    {!loading && !error && <div className="billing-cycle"><span>Frecuencia de cobro</span>
-      <div className="cycle-toggle" role="group" aria-label="Frecuencia de cobro">
+    {!loading && !error && <div className="billing-cycle"><span>Vista de precios</span>
+      <div className="cycle-toggle" role="group" aria-label="Vista de precios mensual o anual">
         <button type="button" className={billingCycle === 'monthly' ? 'selected' : ''} onClick={() => setBillingCycle('monthly')}>Mensual</button>
         <button type="button" className={billingCycle === 'annual' ? 'selected' : ''} onClick={() => setBillingCycle('annual')}>Anual <b>20% OFF</b></button>
       </div>
@@ -125,8 +132,11 @@ export default function SubscriptionPanel({ user = null }) {
         {current && <span className="plan-badge is-active">Tu plan actual</span>}
         <h3>{plan.nombre}</h3><p>{plan.descripcion}</p>
         <p className="plan-price">{money(displayedPrice)}<small>{billingCycle === 'annual' ? ' COP / año' : ' COP / mes'}</small></p>
-        <ul><li>Una cuenta administrativa por negocio</li>
-          <li>Acceso a la plataforma Invix</li></ul>
+        <ul>
+          {plan.codigo === 'BASICO' ? <><li>Hasta 50 productos activos</li><li>Inventario y auditoría básica</li><li>Sin fotos de productos</li></> :
+           plan.codigo === 'PROFESIONAL' ? <><li>Hasta 500 productos activos</li><li>Fotos y catálogo ampliado</li><li>Auditoría completa</li></> :
+           <><li>Productos ilimitados</li><li>Fotos y todas las funciones</li><li>Gestión empresarial ampliada</li></>}
+        </ul>
         {!user ? <Link className="button" href="/register">Crear cuenta</Link> :
           <button className={`button ${current ? 'secondary' : ''}`} disabled={!admin || current || pending}
             onClick={() => setAction({ kind: 'change', plan })}>

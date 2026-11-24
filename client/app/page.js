@@ -20,8 +20,8 @@ export default function HomePage() {
       </section>
       <section className="features"><div className="section-heading"><p className="eyebrow">Todo lo que necesitas</p><h2>Una operación que fluye mejor</h2><p>Centraliza la información y toma decisiones con una vista clara de cada movimiento.</p></div>
         <div className="feature-grid"><article className="feature-card"><span className="feature-icon" aria-hidden="true">▣</span><h3>Planes para cada negocio</h3><p>Empieza con el plan que se adapte al tamaño y las necesidades de tu empresa.</p></article>
-          <article className="feature-card"><span className="feature-icon" aria-hidden="true">⌁</span><h3>Acceso seguro</h3><p>Tu empresa y sus usuarios acceden de forma segura al programa contratado.</p></article>
-          <article className="feature-card"><span className="feature-icon" aria-hidden="true">↗</span><h3>Crece con Invix</h3><p>Amplía tu plan cuando tu negocio necesite más capacidad y usuarios.</p></article>
+          <article className="feature-card"><span className="feature-icon" aria-hidden="true">⌁</span><h3>Acceso seguro</h3><p>Tu empresa accede de forma segura al programa contratado.</p></article>
+          <article className="feature-card"><span className="feature-icon" aria-hidden="true">↗</span><h3>Crece con Invix</h3><p>Amplía tu plan cuando tu negocio necesite más productos y funciones.</p></article>
         </div>
       </section>
       <section className="metrics" aria-label="Métricas de Invix"><div><strong>3</strong><span>planes disponibles</span></div><div><strong>SEGURA</strong><span>gestión de acceso</span></div><div><strong>24/7</strong><span>plataforma disponible</span></div></section>

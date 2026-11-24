@@ -1,6 +1,20 @@
 -- Módulos operativos multiempresa. Ejecutar una sola vez sobre una base SaaS existente.
 BEGIN;
 
+ALTER TABLE planes ADD COLUMN IF NOT EXISTS max_productos INTEGER;
+ALTER TABLE planes ADD COLUMN IF NOT EXISTS permite_imagenes BOOLEAN NOT NULL DEFAULT FALSE;
+UPDATE planes SET
+    max_productos = CASE codigo
+        WHEN 'BASICO' THEN 50
+        WHEN 'PROFESIONAL' THEN 500
+        WHEN 'EMPRESARIAL' THEN NULL
+        ELSE max_productos
+    END,
+    permite_imagenes = CASE WHEN codigo IN ('PROFESIONAL', 'EMPRESARIAL') THEN TRUE ELSE FALSE END;
+ALTER TABLE planes DROP CONSTRAINT IF EXISTS ck_planes_max_productos;
+ALTER TABLE planes ADD CONSTRAINT ck_planes_max_productos
+    CHECK (max_productos IS NULL OR max_productos > 0);
+
 CREATE TABLE IF NOT EXISTS productos (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     empresa_id BIGINT NOT NULL REFERENCES empresas(id) ON DELETE CASCADE,
